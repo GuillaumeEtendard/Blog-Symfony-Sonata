@@ -1,1 +1,31 @@
-Hello World!
+{% extends 'BlogBundle::layout.html.twig' %}
+
+{% block content %}
+    <section>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col bg-success text-white col-title">
+                    <h1>Blog</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    {% for post in posts %}
+                        <div class="card card-post">
+                            <div class="card-block">
+                                <h4 class="card-title">{{ post.title }}</h4>
+                                <h6 class="card-subtitle mb-2 text-muted">{% for category in post.categories %}{{ category.name }} {% endfor %}</h6>
+                                <p class="card-text">{{ post.content }}</p>
+                                <a href="#" class="card-link">Card link</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

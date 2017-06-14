@@ -19,7 +19,7 @@ class PostCategoryAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper->addIdentifier('id');
-        $listMapper->add('post');
+        $listMapper->add('posts');
         $listMapper->add('name');
     }
 }

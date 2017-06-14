@@ -8,10 +8,13 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/", name="home")
      */
     public function indexAction()
     {
-        return $this->render('BlogBundle:Default:index.html.twig');
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('BlogBundle:Post');
+        $posts = $repository->findAll();
+        return $this->render('BlogBundle:Default:index.html.twig', ['posts' => $posts]);
     }
 }

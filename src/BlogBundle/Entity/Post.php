@@ -72,6 +72,11 @@ class Post
         $this->setLastUpdate(new \DateTime());
     }
 
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
     /**
      * Constructor
      */
@@ -79,6 +84,7 @@ class Post
     {
         $this->setLastUpdate(new \DateTime());
         $this->setPubDate(new \DateTime());
+        $this->setTitle('');
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
