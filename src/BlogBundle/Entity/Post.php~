@@ -58,10 +58,17 @@ class Post
 
     /**
      * Many Posts have Many Categories.
-     * @ORM\ManyToMany(targetEntity="PostCategory", inversedBy="posts")
+     * @ORM\ManyToMany(targetEntity="PostCategory", inversedBy="posts", cascade={"persist"})
      * @ORM\JoinTable(name="posts_categories")
      */
     private $categories;
+
+    /**
+     * Many Posts have One User.
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="posts")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     */
+    private $author;
 
     /**
      * @ORM\PrePersist
@@ -72,11 +79,19 @@ class Post
         $this->setLastUpdate(new \DateTime());
     }
 
+    public function __toString()
+    {
+        return $this->getTitle();
+    }
+
     /**
      * Constructor
      */
     public function __construct()
     {
+        $this->setLastUpdate(new \DateTime());
+        $this->setPubDate(new \DateTime());
+        $this->setTitle('');
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -208,5 +223,39 @@ class Post
     public function getFeaturedImage()
     {
         return $this->featuredImage;
+    }
+
+    /**
+     * Add category
+     *
+     * @param \BlogBundle\Entity\PostCategory $category
+     *
+     * @return Post
+     */
+    public function addCategory(\BlogBundle\Entity\PostCategory $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \BlogBundle\Entity\PostCategory $category
+     */
+    public function removeCategory(\BlogBundle\Entity\PostCategory $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
     }
 }

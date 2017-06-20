@@ -1,0 +1,15 @@
+{% extends 'BlogBundle::layout.html.twig' %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <h4>{{ post.title }}</h4>
+                    <h6>{% for category in post.categories %}<a href="{{ path('category', {name : category.name}) }}">{{ category.name }}</a>{% endfor %}</h6>
+                    <p>{{ post.content }}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

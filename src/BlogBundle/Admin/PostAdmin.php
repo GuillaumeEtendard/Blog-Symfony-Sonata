@@ -12,13 +12,8 @@ class PostAdmin extends AbstractAdmin
     {
         $formMapper->add('title');
         $formMapper->add('content');
-        $formMapper->add('categories', 'sonata_type_collection', [
-            'required'     => false,
-            'by_reference' => false,
-        ],
-            [
-                'edit' => 'inline',
-            ]);
+        $formMapper->add('categories');
+        $formMapper->add('author');
     }
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {

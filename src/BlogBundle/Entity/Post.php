@@ -64,6 +64,13 @@ class Post
     private $categories;
 
     /**
+     * Many Posts have One User.
+     * @ORM\ManyToOne(targetEntity="Application\Sonata\UserBundle\Entity\User", inversedBy="posts")
+     * @ORM\JoinColumn(name="author_id", referencedColumnName="id")
+     */
+    private $author;
+
+    /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
@@ -250,5 +257,29 @@ class Post
     public function getCategories()
     {
         return $this->categories;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \Application\Sonata\UserBundle\Entity\User $author
+     *
+     * @return Post
+     */
+    public function setAuthor(\Application\Sonata\UserBundle\Entity\User $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \Application\Sonata\UserBundle\Entity\User
+     */
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }
