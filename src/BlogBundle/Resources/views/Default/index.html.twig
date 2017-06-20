@@ -19,11 +19,15 @@
                             <div class="card-block">
                                 <h4 class="card-title">{{ post.title }}</h4>
                                 <h6 class="card-subtitle mb-2 text-muted">{% for category in post.categories %}<a href="{{ path('category', {name : category.name}) }}">{{ category.name }}</a>{% endfor %}</h6>
-                                <p class="card-text">{{ post.content }}</p>
+                                <p class="card-text">{{ post.content|truncate(200, true) }}</p>
                                 <a href="{{ path('singlePost', {title : post.title}) }}" class="card-link">Post link</a>
                             </div>
                         </div>
                     {% endfor %}
+
+                    <div class="navigation">
+                        {{ knp_pagination_render(posts) }}
+                    </div>
                 </div>
             </div>
         </div>

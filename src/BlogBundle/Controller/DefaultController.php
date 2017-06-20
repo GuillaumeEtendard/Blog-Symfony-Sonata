@@ -4,21 +4,25 @@ namespace BlogBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
     /**
      * @Route("/", name="home")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('BlogBundle:Post');
-        $query = $repository->createQueryBuilder('p')
-            ->orderBy('p.pubDate', 'DESC')
-            ->getQuery();
+        $em    = $this->get('doctrine.orm.entity_manager');
+        $dql   = "SELECT p FROM BlogBundle:Post p";
+        $query = $em->createQuery($dql);
 
-        $posts = $query->getResult();
+        $paginator  = $this->get('knp_paginator');
+        $posts = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
         return $this->render('BlogBundle:Default:index.html.twig', ['posts' => $posts]);
     }
 

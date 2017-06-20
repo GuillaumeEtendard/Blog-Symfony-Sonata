@@ -6,3 +6,7 @@
 .card-post{
     margin: 20px 0;
 }
+
+.navigation .pagination{
+    justify-content: center;
+}
