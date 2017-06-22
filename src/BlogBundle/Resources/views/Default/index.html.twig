@@ -13,21 +13,24 @@
     <section>
         <div class="container">
             <div class="row">
-                <div class="col">
-                    {% for post in posts %}
+                {% for post in posts %}
+                    <div class="col-sm-6">
                         <div class="card card-post">
                             <div class="card-block">
-                                <h4 class="card-title">{{ post.title }}</h4>
-                                <h6 class="card-subtitle mb-2 text-muted">{% for category in post.categories %}<a href="{{ path('category', {name : category.name}) }}">{{ category.name }}</a>{% endfor %}</h6>
+                                <h4 class="card-title"><a href="{{ path('slug', {slug : post.slug}) }}" class="card-link">{{ post.title }}</a></h4>
+                                <h6 class="card-subtitle mb-2 text-muted">
+                                    <ul class="list-inline">{% for category in post.categories %}
+                                            <li class="list-inline-item"><a href="{{ path('slug', {slug : category.slug}) }}">{{ category.name }}</a>
+                                            </li>{% endfor %}</ul>
+                                </h6>
                                 <p class="card-text">{{ post.content|truncate(200, true) }}</p>
-                                <a href="{{ path('singlePost', {title : post.title}) }}" class="card-link">Post link</a>
                             </div>
                         </div>
-                    {% endfor %}
-
-                    <div class="navigation">
-                        {{ knp_pagination_render(posts) }}
                     </div>
+                {% endfor %}
+
+                <div class="navigation">
+                    {{ knp_pagination_render(posts) }}
                 </div>
             </div>
         </div>

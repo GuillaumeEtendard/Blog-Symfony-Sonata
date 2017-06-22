@@ -13,9 +13,11 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em    = $this->get('doctrine.orm.entity_manager');
-        $dql   = "SELECT p FROM BlogBundle:Post p";
-        $query = $em->createQuery($dql);
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('BlogBundle:Post');
+        $query = $repository->createQueryBuilder('p')
+            ->orderBy('p.pubDate', 'DESC')
+            ->getQuery();
 
         $paginator  = $this->get('knp_paginator');
         $posts = $paginator->paginate(
@@ -23,33 +25,36 @@ class DefaultController extends Controller
             $request->query->getInt('page', 1)/*page number*/,
             5/*limit per page*/
         );
-        return $this->render('BlogBundle:Default:index.html.twig', ['posts' => $posts]);
+
+        $em = $this->getDoctrine()->getManager();
+        $repository = $em->getRepository('BlogBundle:PostCategory');
+        $categories = $repository->findAll();
+        return $this->render('BlogBundle:Default:index.html.twig', ['posts' => $posts, 'categories' => $categories]);
     }
 
     /**
-     * @Route("/post/{title}", name="singlePost")
+     * @Route("/{slug}", name="slug")
      */
-    public function postIdAction($title)
+    public function slugAction(Request $request, $slug)
     {
         $em = $this->getDoctrine()->getManager();
         $repository = $em->getRepository('BlogBundle:Post');
-        $post = $repository->findOneBy(['title' => $title]);
-        return $this->render('BlogBundle:Default:single.html.twig', ['post' => $post]);
-    }
+        $post = $repository->findOneBy(['slug' => $slug]);
+        $posts = [$post];
+        if(!$post){
+            $repository = $em->getRepository('BlogBundle:Post');
+            $query = $repository->createQueryBuilder('post')
+                ->join('post.categories','c')
+                ->where('c.name = ?1')
+                ->setParameter(1, $slug);
 
-    /**
-     * @Route("/category/{name}", name="category")
-     */
-    public function categoryAction($name)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('BlogBundle:Post');
-        $posts = $repository->createQueryBuilder('post')
-            ->join('post.categories','c')
-            ->where('c.name = ?1')
-            ->setParameter(1, $name)
-            ->getQuery()->getResult();
-
-        return $this->render('BlogBundle:Default:index.html.twig', ['posts' => $posts]);
+            $paginator  = $this->get('knp_paginator');
+            $posts = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1)/*page number*/,
+                5/*limit per page*/
+            );
+        }
+        return $this->render('BlogBundle:Default:single.html.twig', ['posts' => $posts]);
     }
 }

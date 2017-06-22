@@ -11,6 +11,7 @@ class PostCategoryAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper->add('name');
+        $formMapper->add('slug');
     }
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {

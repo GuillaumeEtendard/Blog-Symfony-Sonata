@@ -40,6 +40,8 @@ twig:
     strict_variables: '%kernel.debug%'
     form_themes:
       - 'SonataCoreBundle:Form:datepicker.html.twig'
+    globals:
+        blog_menu: "@blog.menu"
 
 services:
     twig.extension.text:
