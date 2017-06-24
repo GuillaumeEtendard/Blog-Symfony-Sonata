@@ -24,6 +24,14 @@ class User extends BaseUser
      */
     private $posts;
 
+
+    /**
+     * One User has Many Comments.
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="author")
+     */
+    private $comments;
+
+
     public function __construct()
     {
         parent::__construct();
@@ -62,5 +70,39 @@ class User extends BaseUser
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \BlogBundle\Entity\Comment $comment
+     *
+     * @return User
+     */
+    public function addComment(\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \BlogBundle\Entity\Comment $comment
+     */
+    public function removeComment(\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }

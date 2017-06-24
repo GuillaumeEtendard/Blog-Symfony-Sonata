@@ -1,0 +1,40 @@
+{% extends 'BlogBundle::layout.html.twig' %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    {% for post in posts %}
+                        <h4><a href="{{ path('slug', {slug : post.slug}) }}">{{ post.title }}</a></h4>
+                        <div><ul class="list-inline">{% for category in post.categories %}<li class="list-inline-item"><a href="{{ path('slug', {slug : category.slug}) }}">{{ category.name }}</a></li>{% endfor %}</ul></div>
+                        <p>{{ post.content }}</p>
+
+                        <hr>
+                        {% if comment is defined %}
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            <input type="submit" value="Add Comment" class="btn btn-primary">
+                            {{ form_end(form) }}
+                            <br>
+                            {% if post.comments %}
+                                {% for comment in post.comments | reverse %}
+                                    <div class="list-group">
+                                        <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                            <p class="mb-1">{{ comment.content }}</p>
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <small>{{ comment.author.username }}</small>
+                                                <small>{{ comment.pubDate | date('Y/m/d H:m') }}</small>
+                                                <a href="{{ path('comment_edit', {'id' : comment.id }) }}" class="btn btn-primary">Edit / Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

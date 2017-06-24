@@ -20,6 +20,11 @@
                     <a class="nav-link" href="{{ path('slug', {slug: category.slug}) }}">{{ category.name }}</a>
                 </li>
             {% endfor %}
+            {% if is_granted('ROLE_ADMIN') %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('sonata_admin_redirect') }}">Admin Dashboard</a>
+            </li>
+            {% endif %}
         </ul>
     </div>
 </nav>
