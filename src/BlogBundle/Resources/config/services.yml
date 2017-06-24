@@ -1,4 +1,7 @@
 services:
+    security.acl.permission.map:
+          class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
+
     admin.post:
         class: BlogBundle\Admin\PostAdmin
         arguments: [~, BlogBundle\Entity\Post, ~]
