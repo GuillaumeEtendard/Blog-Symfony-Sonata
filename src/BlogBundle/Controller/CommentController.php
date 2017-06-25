@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Comment controller.
@@ -23,6 +24,11 @@ class CommentController extends Controller
      */
     public function editAction(Request $request, Comment $comment)
     {
+        $user = $this->getUser();
+        if($user->hasRole('ROLE_USER') && $user !== $comment->getAuthor()){
+            throw new NotFoundHttpException();
+        }
+
         $deleteForm = $this->createDeleteForm($comment);
         $editForm = $this->createForm('BlogBundle\Form\CommentType', $comment);
         $editForm->handleRequest($request);

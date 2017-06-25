@@ -10,3 +10,7 @@
 .navigation .pagination{
     justify-content: center;
 }
+
+.blockquote-comment{
+    font-size: 1.1rem;
+}

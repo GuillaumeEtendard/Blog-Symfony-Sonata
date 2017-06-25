@@ -12,23 +12,44 @@
 
                         <hr>
                         {% if comment is defined %}
-                            {{ form_start(form) }}
-                            {{ form_widget(form) }}
-                            <input type="submit" value="Add Comment" class="btn btn-primary">
-                            {{ form_end(form) }}
-                            <br>
+                            {% if app.user %}
+                                {{ form_start(form) }}
+                                {{ form_widget(form) }}
+                                <input type="submit" value="Add Comment" class="btn btn-primary">
+                                {{ form_end(form) }}
+                                <br>
+                            {% endif %}
+
                             {% if post.comments %}
                                 {% for comment in post.comments | reverse %}
+                                    <blockquote class="blockquote blockquote-comment">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <p class="mb-1">{{ comment.content }}</p>
+                                            <small>{{ comment.pubDate | date('Y/m/d H:m') }}</small>
+                                        </div>
+                                        <footer class="blockquote-footer">
+                                                <cite title="Source Title">{{ comment.author.username }}</cite>
+                                                {% if app.user == comment.author %}
+                                                    <a href="{{ path('comment_edit', {'id' : comment.id }) }}" class="btn btn-link btn-sm float-right">Edit / Delete</a>
+                                                {% endif %}
+                                        </footer>
+                                    </blockquote>
+                                    <!--
                                     <div class="list-group">
                                         <div class="list-group-item list-group-item-action flex-column align-items-start">
-                                            <p class="mb-1">{{ comment.content }}</p>
                                             <div class="d-flex w-100 justify-content-between">
+                                                <p class="mb-1">{{ comment.content }}</p>
                                                 <small>{{ comment.author.username }}</small>
+                                            </div>
+                                            <div class="d-flex w-100 justify-content-between">
                                                 <small>{{ comment.pubDate | date('Y/m/d H:m') }}</small>
-                                                <a href="{{ path('comment_edit', {'id' : comment.id }) }}" class="btn btn-primary">Edit / Delete</a>
+                                                {% if app.user == comment.author %}
+                                                    <a href="{{ path('comment_edit', {'id' : comment.id }) }}" class="btn btn-link btn-sm">Edit / Delete</a>
+                                                {% endif %}
                                             </div>
                                         </div>
                                     </div>
+                                    -->
                                 {% endfor %}
                             {% endif %}
                         {% endif %}

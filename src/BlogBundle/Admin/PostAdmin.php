@@ -1,6 +1,7 @@
 <?php
 namespace BlogBundle\Admin;
 
+use BlogBundle\Service\Slug;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -14,8 +15,20 @@ class PostAdmin extends AbstractAdmin
         $formMapper->add('content');
         $formMapper->add('categories');
         $formMapper->add('author');
-        $formMapper->add('slug');
+        $formMapper->add('slug', null, ['required' => false, 'label' => 'Slug '. PHP_EOL . 'Si champ vide, généré automatiquement à partir du titre']);
     }
+
+    public function preValidate($post)
+    {
+        if($post->getSlug()){
+            $strToSlug = $post->getSlug();
+        }else{
+            $strToSlug = $post->getName();
+        }
+        $string = Slug::generateSlug($strToSlug);
+        $post->setSlug($string);
+    }
+
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper->add('title');

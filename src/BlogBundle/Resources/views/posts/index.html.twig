@@ -20,8 +20,7 @@
                                 <h4 class="card-title"><a href="{{ path('slug', {slug : post.slug}) }}" class="card-link">{{ post.title }}</a></h4>
                                 <div class="card-subtitle mb-2 text-muted">
                                     <ul class="list-inline">{% for category in post.categories %}
-                                            <li class="list-inline-item"><a href="{{ path('slug', {slug : category.slug}) }}">{{ category.name }}</a>
-                                            </li>{% endfor %}</ul>
+                                            <li class="list-inline-item"><a href="{{ path('slug', {slug : category.slug}) }}">{{ category.name }}</a></li>{% endfor %}</ul>
                                 </div>
                                 <p class="card-text">{{ post.content|truncate(200, true) }}</p>
                             </div>

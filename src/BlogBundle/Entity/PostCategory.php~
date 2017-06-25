@@ -28,6 +28,14 @@ class PostCategory
      */
     private $name;
 
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slug", type="string", length=255)
+     */
+    private $slug;
+
     /**
      * Many Categories have Many Posts.
      * @ORM\ManyToMany(targetEntity="Post", mappedBy="categories", cascade={"persist"})
@@ -110,5 +118,29 @@ class PostCategory
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return PostCategory
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 }

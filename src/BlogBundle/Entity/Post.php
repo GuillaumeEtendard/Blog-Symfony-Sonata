@@ -57,13 +57,6 @@ class Post
     private $lastUpdate;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="featuredImage", type="string", length=255, nullable=true)
-     */
-    private $featuredImage;
-
-    /**
      * Many Posts have Many Categories.
      * @ORM\ManyToMany(targetEntity="PostCategory", inversedBy="posts", cascade={"persist"})
      * @ORM\JoinTable(name="posts_categories")
@@ -212,30 +205,6 @@ class Post
     public function getLastUpdate()
     {
         return $this->lastUpdate;
-    }
-
-    /**
-     * Set featuredImage
-     *
-     * @param string $featuredImage
-     *
-     * @return Post
-     */
-    public function setFeaturedImage($featuredImage)
-    {
-        $this->featuredImage = $featuredImage;
-
-        return $this;
-    }
-
-    /**
-     * Get featuredImage
-     *
-     * @return string
-     */
-    public function getFeaturedImage()
-    {
-        return $this->featuredImage;
     }
 
     /**

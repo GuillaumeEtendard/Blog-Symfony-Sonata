@@ -1,15 +1,18 @@
 {% extends 'BlogBundle::layout.html.twig' %}
 
 {% block content %}
-    <h1>Editer commentaire</h1>
+    <section>
+        <div class="container">
+            <h1>Editer commentaire</h1>
 
-    {{ form_start(edit_form) }}
-        {{ form_widget(edit_form) }}
-        <input type="submit" value="Edit" class="btn btn-primary">
-    {{ form_end(edit_form) }}
+            {{ form_start(edit_form) }}
+            {{ form_widget(edit_form) }}
+            <input type="submit" value="Edit" class="btn btn-primary">
+            {{ form_end(edit_form) }}
 
-    {{ form_start(delete_form) }}
-    <input type="submit" value="Delete" class="btn btn-danger">
-    {{ form_end(delete_form) }}
-
+            {{ form_start(delete_form) }}
+            <input type="submit" value="Delete" class="btn btn-danger">
+            {{ form_end(delete_form) }}
+        </div>
+    </section>
 {% endblock %}

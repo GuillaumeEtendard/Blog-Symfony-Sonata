@@ -6,6 +6,8 @@ use BlogBundle\Entity\Comment;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DefaultController extends Controller
 {
@@ -48,6 +50,10 @@ class DefaultController extends Controller
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                if(!$this->getUser()){
+                    throw new NotFoundHttpException();
+                }
+
                 $em = $this->getDoctrine()->getManager();
                 $comment->setPost($post);
                 $comment->setAuthor($user);

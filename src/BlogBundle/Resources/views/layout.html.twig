@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ 'short_name' | trans }}">
+<html lang="{{ 'app.locale' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
@@ -14,16 +14,30 @@
     </button>
     <a class="navbar-brand" href="{{ path('home') }}">Blog</a>
     <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="nav navbar-nav">
+        <ul class="nav navbar-nav mr-auto">
             {% for category in blog_menu.getCategories() %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('slug', {slug: category.slug}) }}">{{ category.name }}</a>
                 </li>
             {% endfor %}
+        </ul>
+        <ul class="nav navbar-nav justify-content-end pull-xs-right">
             {% if is_granted('ROLE_ADMIN') %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('sonata_admin_redirect') }}">Admin Dashboard</a>
             </li>
+            {% endif %}
+            {% if app.user %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('sonata_user_admin_security_logout') }}">Se déconnecter</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('sonata_user_admin_security_login') }}">Se connecter</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('fos_user_registration_register') }}">S'inscrire</a>
+                </li>
             {% endif %}
         </ul>
     </div>

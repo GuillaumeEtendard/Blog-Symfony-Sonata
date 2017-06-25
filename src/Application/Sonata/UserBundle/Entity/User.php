@@ -39,4 +39,82 @@ class User extends BaseUser
     {
         return $this->id;
     }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $posts;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $comments;
+
+
+    /**
+     * Add post
+     *
+     * @param \BlogBundle\Entity\Post $post
+     *
+     * @return User
+     */
+    public function addPost(\BlogBundle\Entity\Post $post)
+    {
+        $this->posts[] = $post;
+
+        return $this;
+    }
+
+    /**
+     * Remove post
+     *
+     * @param \BlogBundle\Entity\Post $post
+     */
+    public function removePost(\BlogBundle\Entity\Post $post)
+    {
+        $this->posts->removeElement($post);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * Add comment
+     *
+     * @param \BlogBundle\Entity\Comment $comment
+     *
+     * @return User
+     */
+    public function addComment(\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments[] = $comment;
+
+        return $this;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \BlogBundle\Entity\Comment $comment
+     */
+    public function removeComment(\BlogBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    /**
+     * Get comments
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
 }

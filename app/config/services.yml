@@ -17,3 +17,6 @@ services:
     blog.menu:
         class: BlogBundle\Service\Menu
         arguments: [ "@doctrine.orm.entity_manager" , "@service_container" ]
+
+    blog.slug:
+        class: BlogBundle\Service\Slug
