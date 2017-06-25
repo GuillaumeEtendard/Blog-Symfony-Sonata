@@ -95,8 +95,8 @@ class Post
      */
     public function __construct()
     {
-        $this->setLastUpdate(new \DateTime());
-        $this->setPubDate(new \DateTime());
+        $this->setLastUpdate(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
+        $this->setPubDate(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
         $this->setTitle('');
         $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
     }
