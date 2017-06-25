@@ -3,12 +3,14 @@
 {% block content %}
     <section>
         <div class="container">
-            <h1>Editer commentaire</h1>
+            <h4>Editer commentaire</h4>
 
             {{ form_start(edit_form) }}
             {{ form_widget(edit_form) }}
             <input type="submit" value="Edit" class="btn btn-primary">
             {{ form_end(edit_form) }}
+
+            <br>
 
             {{ form_start(delete_form) }}
             <input type="submit" value="Delete" class="btn btn-danger">

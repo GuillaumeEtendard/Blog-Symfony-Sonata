@@ -15,7 +15,7 @@ class PostAdmin extends AbstractAdmin
         $formMapper->add('content');
         $formMapper->add('categories');
         $formMapper->add('author');
-        $formMapper->add('slug', null, ['required' => false, 'label' => 'Slug '. PHP_EOL . 'Si champ vide, généré automatiquement à partir du titre']);
+        $formMapper->add('slug', null, ['required' => false, 'label' => 'Slug (Si champ vide, généré automatiquement à partir du titre)']);
     }
 
     public function preValidate($post)
@@ -23,7 +23,7 @@ class PostAdmin extends AbstractAdmin
         if($post->getSlug()){
             $strToSlug = $post->getSlug();
         }else{
-            $strToSlug = $post->getName();
+            $strToSlug = $post->getTitle();
         }
         $string = Slug::generateSlug($strToSlug);
         $post->setSlug($string);
@@ -33,6 +33,7 @@ class PostAdmin extends AbstractAdmin
     {
         $datagridMapper->add('title');
         $datagridMapper->add('content');
+        $datagridMapper->add('pubDate');
     }
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -42,5 +43,6 @@ class PostAdmin extends AbstractAdmin
         $listMapper->add('title');
         $listMapper->add('content');
         $listMapper->add('categories');
+        $listMapper->add('author');
     }
 }

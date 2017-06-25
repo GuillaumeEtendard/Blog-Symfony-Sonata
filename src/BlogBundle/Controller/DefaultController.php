@@ -63,21 +63,28 @@ class DefaultController extends Controller
                 return $this->redirectToRoute('slug', array('slug' => $slug));
             }
 
-            return $this->render('BlogBundle:posts:single.html.twig', ['posts' => [$post], 'form' => $form->createView(), 'comment' => $comment]);
+            return $this->render('BlogBundle:posts:single.html.twig', ['post' => $post, 'form' => $form->createView(), 'comment' => $comment]);
         } else {
             $repository = $em->getRepository('BlogBundle:Post');
             $query = $repository->createQueryBuilder('post')
                 ->join('post.categories', 'c')
-                ->where('c.name = ?1')
-                ->setParameter(1, $slug);
+                ->where('c.slug = :slug')
+                ->setParameter('slug', $slug);
 
             $paginator = $this->get('knp_paginator');
             $posts = $paginator->paginate(
-                $query, /* query NOT result */
-                $request->query->getInt('page', 1)/*page number*/,
-                5/*limit per page*/
+                $query, /* query */
+                $request->query->getInt('page', 1) /*page number*/,
+                5 /*limit per page*/
             );
-            return $this->render('BlogBundle:posts:single.html.twig', ['posts' => $posts]);
+
+            $repository = $em->getRepository('BlogBundle:PostCategory');
+            $category = $repository->findOneBy(['slug' => $slug]);
+
+            if(!$category){
+                throw new NotFoundHttpException();
+            }
+            return $this->render('BlogBundle:posts:category.html.twig', ['posts' => $posts, 'category' => $category]);
         }
     }
 }

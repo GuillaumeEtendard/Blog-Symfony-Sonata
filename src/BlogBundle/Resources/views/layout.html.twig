@@ -22,7 +22,7 @@
             {% endfor %}
         </ul>
         <ul class="nav navbar-nav justify-content-end pull-xs-right">
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_EDITOR') %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('sonata_admin_redirect') }}">Admin Dashboard</a>
             </li>
