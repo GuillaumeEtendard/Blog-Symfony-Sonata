@@ -23,17 +23,9 @@ class DefaultController extends Controller
             ->orderBy('p.pubDate', 'DESC')
             ->getQuery();
 
-        $paginator = $this->get('knp_paginator');
-        $posts = $paginator->paginate(
-            $query, /* query NOT result */
-            $request->query->getInt('page', 1)/*page number*/,
-            5/*limit per page*/
-        );
+        $posts = $this->paginate($request, $query);
 
-        $em = $this->getDoctrine()->getManager();
-        $repository = $em->getRepository('BlogBundle:PostCategory');
-        $categories = $repository->findAll();
-        return $this->render('BlogBundle:posts:index.html.twig', ['posts' => $posts, 'categories' => $categories]);
+        return $this->render('BlogBundle:posts:index.html.twig', ['posts' => $posts]);
     }
 
     /**
@@ -85,12 +77,7 @@ class DefaultController extends Controller
                 ->where('c.slug = :slug')
                 ->setParameter('slug', $slug);
 
-            $paginator = $this->get('knp_paginator');
-            $posts = $paginator->paginate(
-                $query, /* query */
-                $request->query->getInt('page', 1) /*page number*/,
-                5 /*limit per page*/
-            );
+            $posts = $this->paginate($request, $query);
 
             $repository = $em->getRepository('BlogBundle:PostCategory');
             $category = $repository->findOneBy(['slug' => $slug]);
@@ -100,5 +87,15 @@ class DefaultController extends Controller
             }
             return $this->render('BlogBundle:posts:category.html.twig', ['posts' => $posts, 'category' => $category]);
         }
+    }
+
+    public function paginate(Request $request, $query){
+        $paginator = $this->get('knp_paginator');
+        $posts = $paginator->paginate(
+            $query, /* query NOT result */
+            $request->query->getInt('page', 1)/*page number*/,
+            5/*limit per page*/
+        );
+        return $posts;
     }
 }

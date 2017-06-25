@@ -12,7 +12,7 @@ class PostCategoryAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper->add('name');
-        $formMapper->add('slug', null, ['required' => false, 'label' => 'Slug '. PHP_EOL . 'Si champ vide, généré automatiquement à partir du nom']);
+        $formMapper->add('slug', null, ['required' => false, 'label' => 'Slug (Si champ vide, généré automatiquement à partir du nom)']);
     }
     public function preValidate($postCategory)
     {
@@ -31,7 +31,7 @@ class PostCategoryAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper->addIdentifier('id');
-        $listMapper->add('posts');
         $listMapper->add('name');
+        $listMapper->add('posts');
     }
 }
