@@ -12,7 +12,9 @@ file that was distributed with this source code.
 {% extends base_template %}
 
 {% block sonata_nav %}
-    <h3><a href="{{ path('home') }}">Home</a></h3>
+    <nav class="nav navbar">
+        <a class="navbar-brand" href="{{ path('home') }}">Blog</a>
+    </nav>
 {% endblock sonata_nav %}
 
 {% block logo %}

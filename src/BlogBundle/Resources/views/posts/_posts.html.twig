@@ -1,0 +1,36 @@
+<section>
+    <div class="container">
+        <div class="row">
+            {% for post in posts %}
+                <div class="col-sm-6">
+                    <div class="card card-post">
+                        <div class="card-block">
+                            <h4 class="card-title"><a href="{{ path('slug', {slug : post.slug}) }}" class="card-link">{{ post.title }}</a></h4>
+                            <div class="card-subtitle mb-2 text-muted">
+                                <ul class="list-inline">
+                                    {% for category in post.categories %}
+                                        <li class="list-inline-item"><a href="{{ path('slug', {slug : category.slug}) }}">{{ category.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <p class="card-text">{{ post.content|truncate(200, true) }}</p>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex w-100 justify-content-between">
+                                <small>{{ post.author.username }}</small>
+                                <small>{{ post.pubDate | date('Y/m/d H:m') }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="navigation">
+                    {{ knp_pagination_render(posts) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
 
 class DefaultController extends Controller
 {
@@ -57,8 +58,21 @@ class DefaultController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $comment->setPost($post);
                 $comment->setAuthor($user);
+
                 $em->persist($comment);
                 $em->flush();
+
+                // Create ACLs
+                $adminSecurityHandler = $this->container->get('sonata.admin.security.handler');
+                $commentAdmin = $this->container->get('admin.comment');
+
+                $objectIdentity = ObjectIdentity::fromDomainObject($comment);
+                $acl = $adminSecurityHandler->getObjectAcl($objectIdentity);
+                if (is_null($acl)) {
+                    $acl = $adminSecurityHandler->createAcl($objectIdentity);
+                }
+                $adminSecurityHandler->addObjectClassAces($acl, $adminSecurityHandler->buildSecurityInformation($commentAdmin));
+                $adminSecurityHandler->updateAcl($acl);
 
                 return $this->redirectToRoute('slug', array('slug' => $slug));
             }
