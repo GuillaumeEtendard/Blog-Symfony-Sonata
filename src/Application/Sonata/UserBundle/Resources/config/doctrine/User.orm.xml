@@ -9,9 +9,16 @@
         <id name="id" column="id" type="integer">
             <generator strategy="AUTO" />
         </id>
-        <one-to-many field="posts" target-entity="\BlogBundle\Entity\Post" mapped-by="author" />
-        <one-to-many field="comments" target-entity="\BlogBundle\Entity\Comment" mapped-by="author" />
-
+        <one-to-many field="posts" target-entity="\BlogBundle\Entity\Post" mapped-by="author">
+            <cascade>
+                <cascade-remove />
+            </cascade>
+        </one-to-many>
+        <one-to-many field="comments" target-entity="\BlogBundle\Entity\Comment" mapped-by="author">
+            <cascade>
+                <cascade-remove />
+            </cascade>
+        </one-to-many>
     </entity>
 
 </doctrine-mapping>

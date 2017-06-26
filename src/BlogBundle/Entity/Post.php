@@ -72,7 +72,7 @@ class Post
 
     /**
      * One Post has Many Comments.
-     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="post", cascade={"remove"})
      */
     private $comments;
 
